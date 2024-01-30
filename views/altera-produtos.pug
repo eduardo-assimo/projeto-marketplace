@@ -1,0 +1,65 @@
+html
+  head
+    title Alteração de Produtos
+  body
+    h1 Alteração de Produtos
+    form#formAlteracao(action='/produtos/alterar', method='post', enctype='multipart/form-data')
+      // Adicione os campos do formulário para o alteração de produtos
+      input(type='hidden', id='chaveProduto', name='chaveProduto', value=produto.chaveProduto)
+      div
+        label(for='nome') Nome do Produto:
+        input(type='text', id='nome', name='nome', value=produto.nome, required)
+      div
+        label(for='descricao') Descrição do Produto:
+        input(type='text', id='descricao', name='descricao', value=produto.descricao, required)
+      div
+        label(for='categoria') Categoria do Produto:
+        input(type='text', id='categoria', name='categoria', value=produto.categoria, required)
+      div
+        label(for='preco') Preço do Produto:
+        input(type='decimal', id='preco', name='preco', value=produto.preco, required)
+      div 
+        label(for='preco') Imagem:
+        img(src=produto.imagem, alt='Imagem', style=`width: 50px;`)
+      div
+      div
+        label(for='imagem') Alterar Imagem:
+        input(type='file', id='imagem', name='imagem', accept='image/*')
+      div
+        button(type='submit') Alterar Produto
+
+    #resultado
+
+    script.
+      document.getElementById('formAlteracao').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const nome = document.getElementById('nome').value;
+        const descricao = document.getElementById('descricao').value;
+        const categoria = document.getElementById('categoria').value;
+        const preco = document.getElementById('preco').value;
+        const chaveProduto = document.getElementById('chaveProduto').value;
+        
+
+        const formData = new FormData(); // Cria um objeto FormData
+
+        formData.append('nome', nome);
+        formData.append('descricao', descricao);
+        formData.append('categoria', categoria);
+        formData.append('preco', preco);
+        formData.append('imagem', document.getElementById('imagem').files[0]); // Adiciona o arquivo de imagem
+
+        try {
+          const response = await fetch(`/produtos/alterar/${chaveProduto}`, {
+            method: 'POST',
+            body: formData, // Usa o objeto FormData em vez de JSON.stringify
+          });
+
+          const data = await response.json();
+
+          document.getElementById('resultado').innerHTML = `Produto alterado!`;
+        } catch (error) {
+          console.error(error);
+          document.getElementById('resultado').innerHTML = 'Erro ao alterar produto.';
+        }
+      });

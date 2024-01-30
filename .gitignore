@@ -1,0 +1,11 @@
+#ignorando pasta node_modules
+
+node_modules/
+
+#variáveis de ambiente .env
+
+*.env
+
+#ignorando package-lock
+
+package-lock.json

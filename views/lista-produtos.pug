@@ -1,0 +1,26 @@
+html
+  head
+    title Lista de Produtos
+
+  body
+    h1 Lista de Produtos
+
+    table
+      thead
+        tr
+          th Nome
+          th Descrição
+          th Preço
+          th Categoria
+          th Usuário Nome
+          th Usuário Email
+
+      tbody
+        each produto in produtos
+          tr
+            td= produto.nome
+            td= produto.descricao
+            td= produto.preco
+            td= produto.categoria
+            td= produto.usuario.nome
+            td= produto.usuario.email
